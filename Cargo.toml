@@ -1,0 +1,46 @@
+[package]
+name = "flowfull-rust-starter"
+version = "0.1.0"
+edition = "2024"
+description = "Production-ready Rust backend starter with Flowless Bridge validation"
+license = "MIT"
+rust-version = "1.85"
+
+[features]
+default = ["postgres", "redis-cache"]
+postgres = ["sqlx/postgres"]
+mysql = ["sqlx/mysql"]
+sqlite = ["sqlx/sqlite"]
+redis-cache = ["dep:redis"]
+
+[dependencies]
+anyhow = "1"
+async-trait = "0.1"
+axum = { version = "0.8", features = ["macros"] }
+base64 = "0.22"
+chrono = { version = "0.4", features = ["serde"] }
+config = "0.15"
+ed25519-dalek = { version = "2", features = ["rand_core", "serde"] }
+hex = "0.4"
+moka = { version = "0.12", features = ["future"] }
+pasetors = "0.7"
+rand_core = { version = "0.6", features = ["getrandom"] }
+redis = { version = "0.32", features = ["tokio-comp", "connection-manager"], optional = true }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio-rustls", "any", "chrono", "uuid"] }
+thiserror = "2"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal", "time", "net"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["cors", "trace"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+uuid = { version = "1", features = ["serde", "v4"] }
+flowfull = "0.1.0"
+
+[dev-dependencies]
+http-body-util = "0.1"
+pretty_assertions = "1"
+tower = { version = "0.5", features = ["util"] }
+wiremock = "0.6"
