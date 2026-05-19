@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ["rust-bin.stable.\"1.85.0\".default", "gcc", "pkg-config", "openssl"]
+
+[phases.build]
+cmds = ["cargo build --release"]
+
+[start]
+cmd = "./target/release/flowfull-rust-starter"
