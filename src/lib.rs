@@ -6,7 +6,6 @@ use axum::{
     middleware,
     routing::get,
 };
-use sqlx::AnyPool;
 use tower_http::{
     cors::{AllowOrigin, CorsLayer},
     trace::TraceLayer,
@@ -26,7 +25,7 @@ use config::Settings;
 #[derive(Clone)]
 pub struct AppState {
     pub settings: Settings,
-    pub db: AnyPool,
+    pub db: db::Database,
     pub cache: HybridCache,
     pub bridge_validator: BridgeValidator,
 }

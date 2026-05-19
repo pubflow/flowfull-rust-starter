@@ -23,7 +23,6 @@ use flowfull_rust_starter::{
 use http_body_util::BodyExt;
 use pretty_assertions::assert_eq;
 use serde_json::{Value, json};
-use sqlx::any::AnyPoolOptions;
 use tower::ServiceExt;
 use wiremock::{
     Mock, MockServer, ResponseTemplate,
@@ -37,6 +36,7 @@ fn settings(flowless_api_url: String) -> Settings {
         environment: "development".to_string(),
         base_url: "http://localhost:3001".to_string(),
         database_url: "postgres://postgres:postgres@localhost/flowfull_test".to_string(),
+        database_auth_token: None,
         database_max_connections: 5,
         database_min_connections: 0,
         database_connect_timeout_seconds: 1,
@@ -126,14 +126,14 @@ async fn state_with_bridge(user_type: &str) -> Arc<AppState> {
         .await;
 
     let settings = settings(server.uri());
-    let db = AnyPoolOptions::new()
+    let db = sqlx::any::AnyPoolOptions::new()
         .connect_lazy(&settings.database_url)
         .expect("lazy database pool");
     let cache = HybridCache::new(&settings).await.expect("cache");
     let bridge_validator = BridgeValidator::new(&settings).expect("bridge validator");
     Arc::new(AppState {
         settings,
-        db,
+        db: flowfull_rust_starter::db::Database::Sqlx(db),
         cache,
         bridge_validator,
     })

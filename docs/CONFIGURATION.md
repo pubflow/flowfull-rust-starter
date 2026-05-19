@@ -13,6 +13,8 @@ TRUST_TOKEN_PRIVATE_KEY=replace-with-generated-private-key
 DEV_CORS_RELAXED=false
 ```
 
+For Turso/libSQL, `DATABASE_URL` may include `authToken`, `token`, `auth_token`, or `jwt` for resource mapping. The starter removes the secret from the runtime URL and passes it separately to the libSQL client. Separate token env aliases are also supported: `DATABASE_AUTH_TOKEN`, `DB_AUTH_TOKEN`, `TURSO_AUTH_TOKEN`, and `LIBSQL_AUTH_TOKEN`.
+
 ## Bridge
 
 - `FLOWLESS_API_URL`: Flowless API base URL.

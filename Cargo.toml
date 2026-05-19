@@ -38,6 +38,8 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 uuid = { version = "1", features = ["serde", "v4"] }
 flowfull = "0.1.0"
+libsql = { version = "0.9.30", default-features = false, features = ["remote", "tls"] }
+url = "2.5.8"
 
 [dev-dependencies]
 http-body-util = "0.1"

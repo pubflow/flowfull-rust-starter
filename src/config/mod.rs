@@ -11,6 +11,7 @@ pub struct Settings {
     pub base_url: String,
 
     pub database_url: String,
+    pub database_auth_token: Option<String>,
     pub database_max_connections: u32,
     pub database_min_connections: u32,
     pub database_connect_timeout_seconds: u64,
@@ -70,6 +71,7 @@ impl Settings {
             .set_default("ENVIRONMENT", "development")?
             .set_default("BASE_URL", "http://localhost:3001")?
             .set_default("DATABASE_URL", "sqlite://flowfull.db")?
+            .set_default("DATABASE_AUTH_TOKEN", "")?
             .set_default("DATABASE_MAX_CONNECTIONS", 20)?
             .set_default("DATABASE_MIN_CONNECTIONS", 1)?
             .set_default("DATABASE_CONNECT_TIMEOUT_SECONDS", 10)?
