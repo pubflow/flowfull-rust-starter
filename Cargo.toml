@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 description = "Production-ready Rust backend starter with Flowless Bridge validation"
 license = "MIT"
-rust-version = "1.85"
+rust-version = "1.88"
 
 [features]
 default = ["postgres", "redis-cache"]
