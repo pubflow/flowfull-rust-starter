@@ -18,6 +18,7 @@ use crate::{
     auth::{BridgeValidator, SessionData, ValidationModeSettings, ValidationSignals},
     cache::HybridCache,
     config::Settings,
+    security::real_client_ip,
 };
 
 pub async fn require_auth(
@@ -177,7 +178,7 @@ async fn validate_or_cache(
 
 fn request_validation_signals(request: &Request) -> ValidationSignals {
     ValidationSignals {
-        ip: extract_ip(request),
+        ip: real_client_ip(request.headers()),
         user_agent: request
             .headers()
             .get("user-agent")
@@ -211,17 +212,6 @@ fn extract_query_session(request: &Request) -> Option<String> {
             (name == "session_id" && !value.is_empty()).then(|| value.to_string())
         })
     })
-}
-
-fn extract_ip(request: &Request) -> Option<String> {
-    request
-        .headers()
-        .get("x-forwarded-for")
-        .and_then(|value| value.to_str().ok())
-        .and_then(|value| value.split(',').next())
-        .map(str::trim)
-        .filter(|value| !value.is_empty())
-        .map(str::to_string)
 }
 
 #[allow(dead_code)]

@@ -16,6 +16,7 @@ pub mod cache;
 pub mod config;
 pub mod db;
 pub mod routes;
+pub mod security;
 pub mod tokens;
 
 use auth::BridgeValidator;
@@ -96,8 +97,10 @@ pub fn build_app(state: Arc<AppState>) -> anyhow::Result<Router> {
         .route("/", get(routes::root))
         .nest("/health", health_routes)
         .nest("/api", api_routes)
+        .fallback(security::not_found)
         .layer(cors)
         .layer(TraceLayer::new_for_http())
+        .layer(middleware::from_fn(security::request_shield))
         .with_state(state))
 }
 
